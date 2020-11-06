@@ -212,20 +212,21 @@ Import module in your python code, for example:
 ```python
 > python3.6
 
->>> from ctutlz.ctlog import download_log_list
->>> from ctutlz.scripts.verify_scts import verify_scts_by_tls
+>>> from ctutlz.ctlog import download_log_list, Logs, set_operator_names
+>>> from ctutlz.scripts.verify_scts import verify_scts_by_cert, verify_scts_by_tls, verify_scts_by_ocsp
 >>> from ctutlz.tls.handshake import do_handshake
 >>>
->>> ctlogs = download_log_list()
+>>> all_dict = download_log_list()
+>>> set_operator_names(all_dict)
+>>> ctlogs = Logs([all_dict])
+>>>
 >>> handshake_res = do_handshake('google.com')
->>> verifications = verify_scts_by_tls(handshake_res, ctlogs)
+>>> verifications = verify_scts_by_cert(handshake_res, ctlogs)
 >>> for ver in verifications:
 ...   print(f'{ver.verified}: {ver.log.description}')
 ...
-True: Google 'Pilot' log
-True: Symantec log
->>>
->>> from ctutlz.rfc6962 import SignedCertificateTimestamp, MerkleTreeLeaf
+True: DigiCert Nessie2020 Log
+True: Google 'Xenon2020' log
 ```
 
 ## Installation
